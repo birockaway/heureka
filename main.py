@@ -82,9 +82,9 @@ for i in range(len(scrape_dates)):
 
 		    # The site we will navigate into, handling it's session
 		    if entity=='Heureka.cz':
-		    	Url_login='https://login.heureka.cz/login'
+		    	Url_login='http://login.heureka.cz/login'
 		    if entity=='Heureka.sk':
-		    	Url_login='https://login.heureka.sk/login'
+		    	Url_login='http://login.heureka.sk/login'
 		    br.open(Url_login)
 
 		    # View available forms
