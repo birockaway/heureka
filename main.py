@@ -92,7 +92,7 @@ for i in range(len(scrape_dates)):
 		    #    print f
 
 		    # Select the second (index one) form (the first form is a search query box)
-		    br.select_form(nr=0)
+		    br.select_form(nr=1)
 
 		    # User credentials
 		    br.form['email'] = parameters.get('Entity').get(entity).get(login).get('Login')
