@@ -34,6 +34,9 @@ if parameters.get('Date_preset')=='Yesterday':
 elif parameters.get('Date_preset')=='last_week':
 	d1 = date.today() - timedelta(7)
 	d2 = date.today() - timedelta(1)
+elif parameters.get('Date_preset')=='last_3_days':
+	d1 = date.today() - timedelta(3)
+	d2 = date.today() - timedelta(1)	
 elif parameters.get('Date_preset')=='last_31_days':
 	d1 = date.today() - timedelta(31)
 	d2 = date.today() - timedelta(1)	
