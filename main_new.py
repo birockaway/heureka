@@ -7,17 +7,6 @@ import time
 import mechanicalsoup
 from bs4 import BeautifulSoup
 
-# I know - Very unnsafe method to store password and config right here,
-# but I don't know how to handle this situation :(
-#USERNAME = "marketing@mall.cz"
-#PASSWORD = "H8eUrE05k.254"
-# How many days to scrape before today
-#DATE_PERIOD = 31
-#NO_OF_SHOPS = ['heureka_mall'] # Ready for another shops on Heureka
-#SHOP_ID = '280'
-#SHOP_NAME = 'heureka_mall'
-#ENTITIES = ['Heureka.cz'] # ready for SK Heureka
-
 # this is the way how to store data in config files:
 #cfg = docker.Config('data')
 #parameters = cfg.get_parameters()
