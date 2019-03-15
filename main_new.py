@@ -6,6 +6,7 @@ from lxml import html
 import time
 import mechanicalsoup
 from bs4 import BeautifulSoup
+from keboola import docker
 
 # this is the way how to store data in config files:
 #cfg = docker.Config('data')
