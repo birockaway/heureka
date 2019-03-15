@@ -8,8 +8,8 @@ import mechanicalsoup
 from bs4 import BeautifulSoup
 
 # this is the way how to store data in config files:
-#cfg = docker.Config('data')
-#parameters = cfg.get_parameters()
+cfg = docker.Config('data')
+parameters = cfg.get_parameters()
 
 
 # load category ids to scrape
