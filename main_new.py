@@ -61,7 +61,7 @@ for i in range(delta.days+1):
 # So I can easy work with Eur or another currency in future.
 def sanitizeStrings(text) :
     textSplitted = text.string.rsplit(None,1)
-    firstResultTemp  = textSplitted[0].replace(' ','') # if value > 999 and it result would be X XXX
+    firstResultTemp  = textSplitted[0].replace(' ','') # if value > 999 and it result would be X XXX
     firstResult = firstResultTemp.replace(',','.')
     secondResult = textSplitted[1]
     return firstResult, secondResult
@@ -158,6 +158,6 @@ for i in range(len(scrape_dates)):
         #print(L)
 
           with open('/data/out/tables/'+parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]+'.csv', mode='a+', encoding='utf-8') as output_file:
-	    dict_writer = csv.DictWriter(output_file, keys, lineterminator= '\n', delimiter=',', quotechar='"')
-	    dict_writer.writeheader()
-	    dict_writer.writerows(L)
+				    dict_writer = csv.DictWriter(output_file, keys, lineterminator= '\n', delimiter=',', quotechar='"')
+				    dict_writer.writeheader()
+				    dict_writer.writerows(L)
