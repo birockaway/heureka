@@ -166,7 +166,7 @@ for i in range(len(scrape_dates)):
 		        #csv.register_dialect('singlequote', quotechar="'", quoting=csv.QUOTE_ALL)
 		        #csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONE)
 
-		        with open('/data/out/tables/'+parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]+'.csv', 'ab') as output_file:
-		            dict_writer = csv.DictWriter(output_file, keys, quoting=csv.QUOTE_NONNUMERIC)
+		        with open('/data/out/tables/'+parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]+'.csv', mode='a+', encoding='utf-8') as output_file:
+		            dict_writer = csv.DictWriter(output_file, keys, lineterminator= '\n', delimiter=',', quotechar='"')
 		            dict_writer.writeheader()
 		            dict_writer.writerows(L)
