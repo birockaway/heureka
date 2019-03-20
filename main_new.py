@@ -6,13 +6,39 @@ from lxml import html
 import time
 import mechanicalsoup
 from bs4 import BeautifulSoup
-from keboola import docker
+# from keboola import docker
 
 # this is the way how to store data in config files:
 # cfg = docker.Config('data')
-cfg = docker.Config('/data/')
-parameters = cfg.get_parameters()
-
+# cfg = docker.Config('/data/')
+parameters = {
+  "Date_from": "2019-03-08",
+  "Date_to": "2019-03-11",
+  "Entity": {
+   "Heureka.cz": {
+      "Login_6": {
+        "Login": "reklama@vivantis.cz",
+        "Password": "heurek4.viv@ntis",
+        "Shop_name": [
+          "heureka_cz_hodinky",
+          "heureka_cz_krasa",
+          "heureka_cz_parfemy",
+          "heureka_cz_parfum",
+          "heureka_cz_prozdravi",
+          "heureka_cz_sperky",
+          "heureka_cz_vivantis"
+        ],
+        "Shop_id": [
+          "145",
+          "143",
+          "168",
+          "34991",
+          "266",
+          "3808",
+          "51030"
+        ]
+      }}}  
+}
 # load category ids to scrape
 # df = pd.read_csv('in/tables/categories_to_scrape.csv')
 # category_ids = df.category_id
@@ -38,7 +64,7 @@ elif parameters.get('Date_preset') == 'last_week':
     d2 = date.today() - timedelta(1)
 elif parameters.get('Date_preset') == 'last_3_days':
     d1 = date.today() - timedelta(3)
-    d2 = date.today() - timedelta(1)	
+    d2 = date.today() - timedelta(1)    
 elif parameters.get('Date_preset') == 'last_31_days':
     d1 = date.today() - timedelta(31)
     d2 = date.today() - timedelta(1)	
@@ -112,36 +138,36 @@ for i in range(len(scrape_dates)):
                 if entity == 'Heureka.sk':
                     report_url = browser.get('http://sluzby.heureka.sk/obchody/statistiky/?shop=' + parameters.get('Entity').get(entity).get(login).get('Shop_id')[index] + '&from=' + scrape_date + '&to=' + scrape_date)
 
-            # placeholder for SK heureka or sometihing simillar
-            shop = parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]
-            # create BeautifulSoup object
-            report_object = report_url.soup
-            # create HTML of content table
-            tabulka = report_object.find_all('table', {'class': 'shop-list roi'})
-            # create empty list so it will be easy to append results there.
-            L = []
-            rows = BeautifulSoup(str(tabulka), features="lxml").findChildren(['tr'])
-            for row in rows:
-                cells = row.findChildren('td')  # define table
-                cells = cells[0:4]  # Take just first 4 values of table
-                # replace HTML chars
-                if len(cells) >= 4:
-                    temp = sanitizeStrings(cells[3])
-                    costs = temp[0]
-                    currency = temp[1]
-                    if currency == u'nbsp;Kč':
-                        currency = 'CZK'
-                    if currency == u'nbsp;€':
-                        currency = 'EUR'
+                # placeholder for SK heureka or sometihing simillar
+                shop = parameters.get('Entity').get(entity).get(login).get('Shop_name')[index]
+                # create BeautifulSoup object
+                report_object = report_url.soup
+                # create HTML of content table
+                tabulka = report_object.find_all('table', {'class': 'shop-list roi'})
+                # create empty list so it will be easy to append results there.
+                L = []
+                rows = BeautifulSoup(str(tabulka), features="lxml").findChildren(['tr'])
+                for row in rows:
+                    cells = row.findChildren('td')  # define table
+                    cells = cells[0:4]  # Take just first 4 values of table
+                    # replace HTML chars
+                    if len(cells) >= 4:
+                        temp = sanitizeStrings(cells[3])
+                        costs = temp[0]
+                        currency = temp[1]
+                        if currency == u'nbsp;Kč':
+                            currency = 'CZK'
+                        if currency == u'nbsp;€':
+                            currency = 'EUR'
 
-                    temp = sanitizeStrings(cells[2])
-                    cpc = temp[0]
-                    visits_temp = cells[1].string.replace('\xa0', '')  # if value > 999 and it result would be 'X XXX'
-                    visits = float(visits_temp)
-                    # name cleaning...
-                    name = cells[0].string
-                    if name == None:
-                        name = entity
+                        temp = sanitizeStrings(cells[2])
+                        cpc = temp[0]
+                        visits_temp = cells[1].string.replace('\xa0', '')  # if value > 999 and it result would be 'X XXX'
+                        visits = float(visits_temp)
+                        # name cleaning...
+                        name = cells[0].string
+                        if name == None:
+                            name = entity
 
                     prvekL = {'shop': shop,
                             'date': scrape_date,
@@ -153,9 +179,9 @@ for i in range(len(scrape_dates)):
 
                     L.append(prvekL)
 
-            keys = ['name', 'visits', 'cpc', 'costs', 'currency', 'shop', 'date']
+                keys = ['name', 'visits', 'cpc', 'costs', 'currency', 'shop', 'date']
 
-            with open('/data/out/tables/' + parameters.get('Entity').get(entity).get(login).get('Shop_name')[index] + '.csv', mode='a+', encoding='utf-8') as output_file:
-                dict_writer = csv.DictWriter(output_file, keys, lineterminator='\n', delimiter=',', quotechar='"')
-                dict_writer.writeheader()
-                dict_writer.writerows(L)
+                with open('/Users/khruzova/Desktop/tables/' + parameters.get('Entity').get(entity).get(login).get('Shop_name')[index] + '.csv', mode='a+', encoding='utf-8') as output_file:
+                    dict_writer = csv.DictWriter(output_file, keys, lineterminator='\n', delimiter=',', quotechar='"')
+                    dict_writer.writeheader()
+                    dict_writer.writerows(L)
