@@ -139,18 +139,13 @@ for i in range(len(scrape_dates)):
                         visits = float(visits_temp)
                         # name cleaning...
                         name = cells[0].string
-                        if name == None:
+                        if name is None:
                             name = entity
 
-                    prvekL = {'shop': shop,
-                            'date': scrape_date,
-                            'name': name,
-                            'visits': visits,
-                            'cpc': cpc,
-                            'costs': costs,
-                            'currency': currency}
+                        prvekL = {'shop': shop, 'date': scrape_date, 'name': name, 'visits': visits, 'cpc': cpc,
+                                    'costs': costs, 'currency': currency}
 
-                    L.append(prvekL)
+                        L.append(prvekL)
 
                 keys = ['name', 'visits', 'cpc', 'costs', 'currency', 'shop', 'date']
 
