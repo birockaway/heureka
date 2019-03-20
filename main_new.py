@@ -6,39 +6,12 @@ from lxml import html
 import time
 import mechanicalsoup
 from bs4 import BeautifulSoup
-# from keboola import docker
+from keboola import docker
 
 # this is the way how to store data in config files:
 # cfg = docker.Config('data')
-# cfg = docker.Config('/data/')
-parameters = {
-  "Date_from": "2019-03-08",
-  "Date_to": "2019-03-11",
-  "Entity": {
-   "Heureka.cz": {
-      "Login_6": {
-        "Login": "reklama@vivantis.cz",
-        "Password": "heurek4.viv@ntis",
-        "Shop_name": [
-          "heureka_cz_hodinky",
-          "heureka_cz_krasa",
-          "heureka_cz_parfemy",
-          "heureka_cz_parfum",
-          "heureka_cz_prozdravi",
-          "heureka_cz_sperky",
-          "heureka_cz_vivantis"
-        ],
-        "Shop_id": [
-          "145",
-          "143",
-          "168",
-          "34991",
-          "266",
-          "3808",
-          "51030"
-        ]
-      }}}  
-}
+cfg = docker.Config('/data/')
+parameters = cfg.get_parameters()
 # load category ids to scrape
 # df = pd.read_csv('in/tables/categories_to_scrape.csv')
 # category_ids = df.category_id
@@ -181,7 +154,7 @@ for i in range(len(scrape_dates)):
 
                 keys = ['name', 'visits', 'cpc', 'costs', 'currency', 'shop', 'date']
 
-                with open('/Users/khruzova/Desktop/tables/' + parameters.get('Entity').get(entity).get(login).get('Shop_name')[index] + '.csv', mode='a+', encoding='utf-8') as output_file:
+                with open('/data/out/tables/' + parameters.get('Entity').get(entity).get(login).get('Shop_name')[index] + '.csv', mode='a+', encoding='utf-8') as output_file:
                     dict_writer = csv.DictWriter(output_file, keys, lineterminator='\n', delimiter=',', quotechar='"')
                     dict_writer.writeheader()
                     dict_writer.writerows(L)
