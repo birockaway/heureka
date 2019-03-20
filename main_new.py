@@ -6,27 +6,13 @@ from lxml import html
 import time
 import mechanicalsoup
 from bs4 import BeautifulSoup
-# from keboola import docker
+from keboola import docker
 
 # this is the way how to store data in config files:
 # cfg = docker.Config('data')
-# cfg = docker.Config('/data/')
-parameters = {
-  "Date_from": "2019-03-08",
-  "Date_to": "2019-03-11",
-  "Entity": {
-    "Heureka.cz": {
-      "Login_1": {
-        "Login": "valiska@sportmall.cz",
-        "Password": "heurech15",
-        "Shop_name": [
-          "heureka_cz_sm",
-          "heureka_cz_snb"
-        ],
-        "Shop_id": [
-          "5709",
-          "1786"]}}}  
-}
+cfg = docker.Config('/data/')
+parameters = cfg.get_parameters()
+
 # load category ids to scrape
 # df = pd.read_csv('in/tables/categories_to_scrape.csv')
 # category_ids = df.category_id
