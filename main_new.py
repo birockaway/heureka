@@ -60,7 +60,7 @@ for i in range(delta.days+1):
 
 def sanitizeStrings(text):
     textSplitted = text.string.rsplit(None, 1)
-    firstResultTemp = textSplitted[0].replace(' ', '')  # if value > 999 and it result would be X XXX
+    firstResultTemp = textSplitted[0].replace('\xa0', '')  # if value > 999 and it result would be X XXX
     firstResult = firstResultTemp.replace(',', '.')
     secondResult = textSplitted[1]
     return firstResult, secondResult
@@ -128,9 +128,9 @@ for i in range(len(scrape_dates)):
                         temp = sanitizeStrings(cells[3])
                         costs = temp[0]
                         currency = temp[1]
-                        if currency == u'nbsp;Kč':
+                        if currency == u'Kč':
                             currency = 'CZK'
-                        if currency == u'nbsp;€':
+                        if currency == u'€':
                             currency = 'EUR'
 
                         temp = sanitizeStrings(cells[2])
